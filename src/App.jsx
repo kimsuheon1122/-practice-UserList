@@ -30,18 +30,27 @@ function App() {
     setUsers(users.filter((user)=>user.id!==id));
   }
 
+  const onToggle = (id) => {
+    setUsers(users.map((user)=>user.id === id ?
+    {...user, active:!user.active}
+    :user))
+  }
   const [users, setUsers] = useState([
     { id:1, 
       username:'kimsuheon', 
-      email:'kimsuheon@gmail.com' 
+      email:'kimsuheon@gmail.com',
+      active:true
     },
     { id:2, 
       username:'leejiyeon', 
-      email:'leejiyeon@daum.net' 
+      email:'leejiyeon@daum.net',
+      active:false
+
     },
     { id:3, 
       username:'jungjaehyun', 
-      email:'jungjaehyun@gmail.com' 
+      email:'jungjaehyun@gmail.com',
+      active:false
     },
   ]);
   const nextId = useRef(4);
@@ -57,6 +66,7 @@ function App() {
     <UserList 
     users={users}
     onRemove={onRemove}
+    onToggle={onToggle}
     />
     </>
   );
