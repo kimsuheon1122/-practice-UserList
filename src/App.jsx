@@ -1,8 +1,6 @@
-import React, { useRef } from 'react';
-import './App.css';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import UserList from './UserList.jsx';
 import CreateUser from './CreateUser.jsx';
-import { useState } from 'react';
 
 function App() {
   const [inputs, setInputs] = useState({
@@ -10,10 +8,10 @@ function App() {
   })
   const {username, email} = inputs;
 
-  const onChange = (e) => {
+  const onChange = useCallback((e) => {
     const {name, value} = e.target;
     setInputs({...inputs, [name]:value})
-  }
+  },[inputs])
   
   const onCreate = () => {
     const user = {
@@ -35,6 +33,10 @@ function App() {
     {...user, active:!user.active}
     :user))
   }
+  /* active상태의 사용자 count함수 */
+  function countActiveUsers(users){
+    return users.filter((user)=>user.active).length
+  }
   const [users, setUsers] = useState([
     { id:1, 
       username:'kimsuheon', 
@@ -55,6 +57,7 @@ function App() {
   ]);
   const nextId = useRef(4);
 
+  const count = useMemo(()=>countActiveUsers(users), [users])
   return (
     <>
     <CreateUser
@@ -68,6 +71,7 @@ function App() {
     onRemove={onRemove}
     onToggle={onToggle}
     />
+    <div className="">ACTIVE 상태의 사용자 수 : {count}</div>
     </>
   );
 }
