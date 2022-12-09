@@ -25,6 +25,11 @@ function App() {
     setUsers(users.concat(user))
     setInputs({username:"", email:""});
   }
+
+  const onRemove = (id) =>{
+    setUsers(users.filter((user)=>user.id!==id));
+  }
+
   const [users, setUsers] = useState([
     { id:1, 
       username:'kimsuheon', 
@@ -49,7 +54,10 @@ function App() {
       onCreate = {onCreate}
       onChange = {onChange}
     />
-    <UserList users={users}/>
+    <UserList 
+    users={users}
+    onRemove={onRemove}
+    />
     </>
   );
 }
